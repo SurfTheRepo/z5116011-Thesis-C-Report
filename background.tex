@@ -1,0 +1,266 @@
+\chapter{Background}\label{ch:background}
+
+Give Overview here
+
+\section{Blockchain}
+
+A blockchain is a way of creating and updating a immutable shared ledger that does not have a single source of control, the control is shared by participants of the ledger on a network in a decentralised fashion \cite{Baliga2017UnderstandingBC}. A blockchain ensures a finalised ordering of transactions on the ledger shared between geographically separated nodes. Each different blockchain relies on a consensus method in order to ensure that the ledger is the exact same across all nodes. 
+
+Transactions in a blockchain are ordered and stored into blocks that are then added onto the chain using hashes of previous blocks to link them together\cite{SCIOT}. The use of previous blocks hashes to add on a new block ensures the immutability of the blockchain, stopping malicious activity such as a organisation trying to change a previous transaction to result in them having ownership of more than they should. In most blockchains any node is able to initiate a transaction, but requires digital signatures of both parties involved, through the use of public and private keys. 
+
+Blockchain solutions can be divided into two categories, permission-less and permissioned. The most known blockchain Bitcoin falls into the first category, where anyone is able to join the network and take part in the consensus process, making it useful as a ledger for cryptocurrencies. An example of a permissioned blockchain would be Hyperledger Fabric, which is aimed at group of organisations who share business logistics. In permissioned networks, users must be verified and registered to participate in the network. For permissioned blockchains, participation in the consensus process can be delegated to specific nodes. Permissioned blockchains can go through with these processes that seem to detract from the main reasons for a blockchain due to them being aimed at smaller network sizes, in terms of participants, this also results in them being able to explore many more forms of reaching consensus. Permissioned blockchains are often aimed at business practices where only several organisations participate on the blockchain, these are often referred to as consortium blockchains \cite{BCforIoT}.
+
+\subsection{Consensus Algorithms}
+
+Consensus Algorithms are the method by which a blockchain ensures the integrity of the shared ledger across all nodes in the network. Since the introduction of Bitcoin, which used PoW (Proof of Work) to maintain ledger integrity, many more consensus algorithm have been devised, each with their unique benefits and trade offs designed to their specific usecases. 
+
+Permission-less blockchains require consensus algorithms that are able to deal with lack of trust between participants. This results in consensus algorithms such as PoW and PoS (Proof of stake) which create economic incentive for participants to participate in the consensus protocol\cite{buterin2014ethereum}. Generally these algorithms are slow to create new blocks on the chain and have probabilistic transaction finality, requiring several more blocks to be added onto the chain before one can be confident that a transaction has been finalised. 
+
+Permissioned blockchain solutions are able to use the trust gained by having verified and registered members to have solutions which do not require giving economic incentive to miners and can assume a lower degree of malicious activity. This results in blocks being added to the chain at much higher speeds, and the transaction finality being deterministic, once a block is committed there is no need to require further blocks for transaction finality.
+
+\textit{Examples of different consensus algorithms have been included in the appendices}
+
+\subsection{Smart Contracts}
+
+Smart contracts (also known as chaincode) are scripts that are stored on the blockchain ledger and perform ledger specific tasks. Smart contracts are able to express business logic in code. In some blockchains, using smart contracts is required to create a transaction, like in Hyperledger Fabric, while some blockchains make do without smart contracts like Bitcoin, which uses a different model to allow for transactions.\cite{SCIOT}
+
+\subsection{Uses Outside of Cryptocurrency}
+
+One of the major industries that is looking at adopting blockchain into their operations is the supply chain industry. Supply chains involve many different members, With each member generally keeping their own separate ledgers, using a blockchain allows all participants in a supply chain to share one ledger allowing for consistency between the participants business ledgers, reducing the chances of disagreements over ownership and hindering the ability for malicious activity.
+
+
+\section{IoT}
+
+\textit{In this thesis the terms IoT devices and Low Powered Devices are used interchangeably. When mentioned they refer to devices like Raspberry Pis and Arduinos. It is understood that certain fields of computer science would assume Low Powered Devices to refer to embedded devices.}
+
+Internet of Things devices have seen a massive spike in use in recent years due to the increase in use of wireless networks and the ability to scale down the physical size of computers \cite{ManagingIOTbc}. IoT refers to the devices in the world connected to the internet that collect, process and share data. Many of these IoT devices are small light weight devices with limited access to resources such a memory, computational speed and power. 
+
+These IoT devices are able to connect and share information with each other without the need for human oversight, allowing for massive amounts of data to be collected and shared and with insights from this data they are able make decisions or suggestions for humans. An example of this is a smart fridge which can check levels of food in a fridge and add the items needed into a online shopping cart which a human can then accept and the devices involved perform the transaction.
+
+
+\section{Goals and Significance}
+
+Supply chains may choose to track the goods they carry using wireless checkpoints, such as a item packaged with a electronic chip on it that a wireless device at checkpoint is able to read and confirm that the item has made it to the checkpoint, confirming this information into a traditional database. With the adoption of a blockchain replacing the traditional database, the wireless device at the checkpoint would need to become a participant on the blockchain, being able to send transactions to the network.
+
+As blockchains are generally run on devices that are not resource constrained like large servers, it would be infeasible to place one of these servers at each checkpoint within the supply chain. Smaller and cheaper devices that can participate in the blockchain network are required. This is where IoT devices come in, we need a small IoT device that is able to be placed at each point along the supply chain and be able to participate on a blockchain network, committing confirmations of the items it scans to the ledger. This would allow for granular knowledge of the location of goods within the supply chain and also provide the transparency, accountability and security of the supply chain data that blockchain technology can provide.
+
+The goal of this thesis is to create a blockchain network that is able to run on IoT devices, as a proof of concept for the above scenario. Once such a network has been created it is important to understand the capabilities of the IoT blockchain network. This is achieved through monitoring the network as it is used, looking at specific metrics of the network and of the individual device.
+
+\section{Blockchain Decision}
+The first main decision in creating this proof of concept is to decide what available blockchain to use. To aid in deciding what blockchain solution to use, we can review available solutions on the factors that affect their performance and usability in our circumstance.  
+
+\subsection{Factors}
+\begin{description}
+
+    \item[Privacy]  \hfill \\ 
+        Due to the decision to aim our proof of concept to industries, rather than the general public, the blockchain decided upon must be a private/consortium blockchain, as sensitive data and business logic may be stored on the ledger.
+        
+    \item[Smart Contracts] \hfill \\ 
+        The blockchain decided upon must be able to run smart contracts, as smart contracts are a key part of being able to run the necessary business logic. Different blockchains have different levels of support for smart contracts, some supporting smart contracts written in multiple languages, allowing for easier use. 
+
+    \item[Consensus Method] \hfill \\ 
+        
+        For the consensus method, our blockchain must not implement a method that uses high amounts of resource consumption, the resource consumption must be low due to the proof of concept being run on low powered IoT devices, which would not be able to run a blockchain that uses a resource intensive consensus method like PoW.
+      
+        It also has to have a deterministic transaction finality as this is a key reason that industry has been hesitant to use some of the well established blockchains such as Ethereum which has a probabilistic transaction finality which opens them to security concerns such as double spending \cite{BCforIoT}.
+      
+        It is also important that the employed consensus model has a high transaction rate, as although there may not be many participants within a consortium network, there may be many transactions between the few participants.
+        
+        The consensus methods that satisfies three main constraints are Crash Fault Tolerant (CFT) and Byzantine Fault Tolerant (BFT) consensus algorithms. One type of CFT protocol is the RAFT algorithm.
+        
+    
+    \item[Fee Format]  \hfill \\ 
+        As this proof of concept is aimed at industries, where each participant would support the network with their own participating nodes and there would be no reliance on anonymous miners \cite{SCIOT}. A blockchain that uses fees to enable transactions would cause unnecessary overhead and overly complicate implementation. 
+        
+        A fee less blockchain is necessary and will also reduce the complexity of this thesis.
+        
+\end{description}
+
+\subsection{Available Blockchains}
+
+\textit{For this thesis we will not be considering research blockchain solutions, such as LSB, as they may not be robust/stable enough for our purposes and reconfiguring them may involve complications beyond the scope of this thesis}
+
+The available blockchains that have been considered in this thesis are:
+
+\begin{description}
+    \item[Bitcoin] \hfill \\ 
+        The first known public blockchain solution that was developed as a peer-to-peer form of electronic cash that makes financial institutions redundant \cite{nakamoto2012bitcoin}.
+        
+    \item[Ethereum] \hfill \\ 
+        The next generation blockchain developed to combat the shortcomings of Bitcoin, such as avoiding the resource intensive form of reaching consensus, and in later versions supports smart contracts and private networks \cite{buterin2014ethereum}.
+        
+    \item[Hyperledger Fabric] \hfill \\ 
+        A blockchain developed by the Linux Foundation to serve as a private consortium blockchain that is highly customisable for industries. \cite{Linux2018Intro}.
+        
+    \item[Hyperledger Sawtooth] \hfill \\ 
+        A blockchain also being developed under the Linux Foundation, that is targeted to enterprises and supports both permissioned and permission-less networks \cite{Linux2018Intro}.
+        
+    \item[IOTA] \hfill \\
+        A blockchain solution targeted towards IoT networks and microtransactions. IOTA would not be considered a true blockchain, due to its use of a directed acyclic graph (DAG) rather than a regular blockchain to store its ledger. However this ledger maintains the same principles of a blockchain, in that it is an immutable and decentralised ledger \cite{Tangle}.
+
+\end{description}
+
+\begin{table}[htb]
+    \caption{Comparisons of Available Blockchains}
+    \renewcommand{\arraystretch}{2}
+    \begin{tabular}{|p{2cm}|p{1.5cm}|p{2cm}|p{2.2cm}|p{2.2cm}|p{2cm}|}
+      \hline
+        \textbf{}                 & \textbf{Bitcoin} & \textbf{Etheruem}             & \textbf{Hyperledger Fabric} & \textbf{Hyperledger Sawtooth} & \textbf{IOTA} \\[10pt] \hline 
+        \textbf{Consensus Method} & PoW              & PoS                           & RAFT                                  & PoET             & DAG           \\ \hline 
+        \textbf{Smart Contracts}  & No               & Supported                     & Supported                   & Supported                     & No            \\[10pt] \hline 
+        \textbf{Privacy}          & Open   & Private & Private                & Private & Private           \\[10pt] \hline 
+        \textbf{Feeless}          & No               & Possible                      & Yes                         & Yes                           & Yes           \\[10pt] \hline 
+    \end{tabular}
+\end{table}
+ \textbf{ }
+
+\textit{PoET = Proof of Elapsed Time}
+
+\textit{Ethereum and Sawtooth both also support non private networks, but for simplicity the table only mentions their ability to be private networks.}
+
+
+This table conveniently compares the different blockchains for our proposed network. From the table we can see that Hyperledger Fabric and Hyperledger Sawtooth both fit our needs, and can discard the other available solutions.. 
+
+Sawtooth's use of PoET in its implementation requires the use of a Trusted Execution Environment (TEE), specifically Intels SGX, which needs to be run on specific hardware, making it poor choice for a solution on a network of IoT devices \cite{Linux2018Intro}. Sawtooth is also developed mainly as a business solution, as such much of its implementation is abstracted away from users, increasing the complexity of using it in our proposed network.
+
+\textbf{Hyperledger Fabric is selected blockchain solution for our proposed network.}
+
+
+\section{Hyperledger Fabric}
+
+\textit{This thesis uses Hyperledger Fabric version 2.3, different versions of Hyperledger Fabric are not compatible together and many of the core concepts change from version to version, so information will not be relevant to earlier versions and potentially later versions.}
+
+Hyperledger Fabric (HLF) is a permissioned blockchain solution developed under the Linux Foundation, aimed towards enterprise needs. It is a part of the Hyperledger project to create a series of blockchain tools and solutions. A bonus to using HLF is the documentation provided by the Linux Foundation is extremely in depth when compared with other community based blockchains.
+
+HLF is useful to us because it is also aimed at research, and supports further development into specific use cases. This allows us to customise the implementation in order to achieve our goal of running a blockchain on series of low powered devices.
+
+\subsection{Channels, Access Control and Policies}
+
+A HLF network allows for the creation of a channel, which organisations may be apart of and has one ledger associated with it. There may be multiple channels within one network, which may be used to separate parts different parts of business logic.
+
+In order to be a private blockchain, HLF requires a way to enforce identities. It performs this by using Membership Service Providers, which provide components of the network with cryptographic certificates, relying on private/public key infrastructure.
+
+These certificates are used with channel policies to create organisational units, such as admins and users, defining who has the ability to modify the network or to submit transactions. It also also possible to use certificates to have Transport Layer Security(TLS) between components of the network. 
+
+
+\subsection{Network Components}
+
+A Hyperledger Fabric network is comprised two major components: peer nodes and orderer nodes. Another component is the certificate authority which when used in production networks allows for greater security, but has not been used in this thesis.
+
+
+\subsubsection{Peers}
+    
+Peers have three main parts, they contain a database which contains the world state, the ledger that the world state database is created from and a environment which smart contracts can be run in. Peers are contained within Docker containers and are accessed using Hyperledger Fabric executable binaries.
+
+Using these binaries a user is able to create a transaction in a channel which must be endorsed by peers belonging to certain organisations in the channel, the specific peers required is dependant on the channel policies already defined.
+
+Peers belong to a specific organisation, and it is the responsibility of the specific organisation to maintain it.
+
+\subsubsection{Orderers}
+
+Ordering nodes are responsible for how blocks are distributed throughout the HLF network. Peers nodes send transactions (which must be endorsed by the correct organisations to be allowed) to an ordering node which then collates all transactions from a certain time frame and places them into a block in a specific order and distributes this block out to all the peers in the network which then commit this block into their ledger.
+
+Since version 2.3 orderering nodes have become responsible for creating channels and defining channel policies in the network.
+
+\subsection{Consensus Mechanism}
+
+RAFT a Crash Fault Tolerant consensus mechanism. 
+
+In order to achieve consensus, HLF 2.3 requires at least one ordering node. These ordering nodes form the Ordering Service, which maintains consensus using the RAFT protocol. They distribute the transactions on the network, in blocks, to the peers. Within these blocks the transactions are ordered in a deterministic form, ensuring that each peer in the network has the same copy of the ledger. Once peers receive blocks from the ordering service they perform validation on the blocks, the validation is performed using the smart contracts on the ledger, as each node contains the same smart contracts they will all validate the transactions the same way. This ensures there are no forks on the blockchain, resulting in the deterministic nature of blockchains consensus method. As RAFT is a CFT algorithm, it assumes no malicious actors on the network and cannot work in the presence of such an actor.
+
+\subsection{Smart Contracts}
+The Hyperledger Foundation uses the words Chaincode instead of smart contracts.
+Hyperledger Fabric supports smart contracts written in Go, Javascript and Java. It allows for chaincodes by creating a docker container which interfaces with the peer on its machine and runs the smart contracts. 
+
+
+
+\section{Raspberry Pi}
+
+The selection for a low powered IoT device to serve as the hardware in our network, is a much simpler decision than that for the blockchain. This is due to the prevalence of Raspberry Pi in the world of IoT. Raspberry Pi is a series of small single board computers, developed for teaching and research \cite{Raspberry}. Raspberry Pi is currently on their 4th generation model. 
+
+The benefits of Raspberry Pi :
+
+\begin{itemize}
+    \item Low cost, the Model 4 B 4Gb is \$100AUD and the 8Gb version is \$130AUD
+    \item Highly portable.
+    \item Customisable.
+    \item They have served as prototypes for many different research projects.
+    \item They have a large community for technical help.
+    \item They well represent what a possible industrial IoT device would be, as they are constrained on resources like CPU size, memory and power.
+\end{itemize}
+
+Raspberry Pi's do not use x86-64 as their architecture type, but rather ARM, which is a hardware architecture designed for low powered devices. This means that programs designed for use on normal PCs will generally fail when a user tries to run them on a ARM device. This may be avoided by recompiling source code of the program using compilers designed for ARM architecture.
+
+Since the release of the Model 4 B, the Raspberry Pi boards have become 64 bit. Previously the Raspberry Pi's were 32 bit boards, making 64 bit programs incompatible. But even since the boards are now 64 bit, the supported Raspberry Pi operating system is only a 32bit OS, but fortunately other operating systems are able to be put on the Raspberry Pi.
+
+\subsection{Picking an Operating System}
+
+There are a variety of well supported operating systems designed for low powered devices like the Raspberry Pi. 
+
+A few of the ones looked into are:
+\begin{enumerate}
+\item Ubuntu Mate
+\item Ubuntu Server
+\item Windows 10 IoT Core
+\end{enumerate}
+
+However all of these had fallbacks to them, either they were complicated to install, did not provide certain packages that would help with development or were complicated to build Hyperledger Fabric binaries and docker images.
+
+Fortunately, during 2020, after trialling these other operating systems, Raspberry Pi released a 64 bit operating system in a Beta test. This operating system turned out to be very simple to use and install, and the required docker images and binaries can be created for it.
+
+\textit{A link to the 64bit Raspberry Pi OS beta test is included in the appendices.}
+
+\section{Monitoring \& Testing}
+
+The performance of a blockchain solution can be separated into two categories, the performance of the network and the performance of an individual device in a network. 
+
+talk about time for transactions to be commited,
+
+talk about ram usage, cpu usage.
+
+\subsection{Prometheus}
+
+Prometheus is a monitoring software created by Soundcloud, that collects information published by docker containers on a docker network. It is able to collect from multiple containers at once and provides user friendly graphs, that can be viewed to see how the network is performing in real-time.
+
+As it is only a monitoring software and not a testing suite, it will not create stress in the network, a user would have to create transactions them selves on the network and then use Prometheus to see the results of these transactions.
+
+Hyperledger Fabric provides many metrics that can be monitoring in the network using Prometheus, a complete list is included in the appendix.
+
+
+
+
+\section{Skills}
+
+The major skills required for this thesis are as follow:
+\begin{enumerate}
+    \item Docker
+      
+      As Hyperledger Fabric is a containerised solution, a solid understanding of Docker is required. The project requires both using Docker images and creating our own. Understanding how to use containers and their resultant effects is a core point of this project.
+      
+\item Docker Swarm
+
+    As our network will not be on a single machine, we must make use of Docker cluster management tool, which docker swarm provides. Understanding how containers are connected to each other through the Swarm, involving IP addresses and aliases and host configurations is vital to achieve a multiple node Hyperledger Fabric network.
+    
+\item Raspberry Pi
+
+    Understanding how to set up Raspberry Pi's, and how to control them remotely will save users alot of time, as they will not need to connect each Pi to its own I/O devices, but using SSH to control the Pi's all form one central computer.
+
+\item Hyperledger Fabric 2.3
+
+Creating a Hyperledger Fabric network is a very length process, which following the tutorials, provided by Hyperledger, will not reveal much insight. Hyperledger also does not provide any information on creating a multiple machine network, which further adds to the complication of this thesis.
+
+The following are the concepts and processes necessary to understand to create the multiple machine Raspberry Pi network.
+    \begin{itemize}
+        \item Cryptographic \& Configuration Material
+        \item Channel Creation
+        \item Channel Networking
+        \item Chaincode Lifecycle
+    \end{itemize}
+    
+    
+\item Prometheus
+
+To monitor the network, connecting Prometheus to the network is required, which uses concepts learnt from using Docker and Docker Swarm. It involves creating a container which runs Prometheus and giving this container access to certain ports and  IP addresses. 
+
+Actually using a connected Prometheus container is very simple as it creates a web browser front end that has a very simple layout that can be access on local-host.
+\end{enumerate}

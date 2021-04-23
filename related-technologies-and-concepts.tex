@@ -1,0 +1,113 @@
+\chapter{Related Technologies and Concepts}\label{ch:related-technologies-and-concepts}
+
+\section{Blockchain}
+
+A blockchain is a way of creating and updating a immutable shared ledger than does not have a single source of control, the control is shared by participants of the ledger on a network in a decentralised fashion \cite{Baliga2017UnderstandingBC}. A blockchain ensures a finalised ordering of transactions on the ledger shared between geographically separated nodes. Each different blockchain relies on a consensus method in order to ensure that the ledger is the exact same across all nodes. 
+
+Transactions in a blockchain are ordered and stored into blocks that are then added onto the chain using hashes of previous blocks to link them \cite{SCIOT}. The use of previous blocks hashes to add on a new block ensures the immutability of the blockchain, stopping malicious activity such as a organisation trying to change a previous transaction to result in them having ownership of more than they should. In most blockchains any node is able to initiate a transaction, but requires digital signatures of both parties involved, through the use of public and private keys. 
+
+Blockchain solutions can be divided into two categories, permission-less and permissioned. The most know blockchain Bitcoin falls into the first category, where any one is able to join the network and take part in the consensus process, making it useful for performing as a ledger for cryptocurrencies. An example of a permissioned blockchain would be Hyperledger Fabric, which are aimed at group of organisations who share business logistics. In permissioned, users must be verified and registered by those with permission to do so. For permissioned blockchains participation in the consensus process can be delegated to specific nodes. Permissioned blockchains can go through with these processes that seem to detract from the main reasons for a blockchain due to them being aimed at smaller network sizes, this also results in them being able to explore many more forms of reaching consensus. Permissioned blockchains are often aimed at business practices where only several organisations participate on the blockchain, these are often referred to as consortium blockchains \cite{BCforIoT}.
+
+
+\subsection{Consensus Algorithms}
+
+Consensus Algorithms are the method by which a blockchain ensures the integrity of the shared ledger across all nodes in the network. Since the introduction of Bitcoin; which used PoW(Proof of Work) to maintain ledger integrity, many more organisations have come up with other ways of reaching consensus, each with their unique benefits in certain scenarios. 
+
+Permission-less blockchains require consensus algorithms that are able to deal with lack of trust between participants. This results in consensus algorithms such as PoW and PoS(Proof of stake) which create economic incentive for participants to participate in the consensus protocol\cite{buterin2014ethereum}. Generally these algorithms are slow to create new blocks on the chain and have probabilistic transaction finality, requiring several more blocks to be added onto the chain before one can be confident that a transaction has been finalised. 
+
+Permissioned blockchain solutions are able to use the trust gained by having verified and registered members, to have solutions which do not require giving economic incentive to miners and can assume a lower degree of malicious activity. This results blocks being added to the chain at much higher speeds, and the transaction finality being deterministic, once a block is finalised and do not require further blocks for transaction finality.
+
+\textit{Examples of different consensus algorithms have been included in the appendices}
+
+
+
+% \subsubsection{Proof of Work}
+% PoW works by each node having to show it performed an amount of computationally difficult work, such as mathematical puzzle such as finding a specific hash, and which ever node finds it first is allowed to form the next block and place in it the transactions that it has received. This action is called mining.\cite{nakamoto2012bitcoin}
+
+% This method works well when there are many participants in the network but has the drawbacks of using a lot of computing power and electricity which can create a barrier to participating in the consensus process. For example mining in the Bitcoin network now is unfeasible on a regular computer, requiring ASIC(Application Specific Integrated Circuit) devices to participate. They also have very slow confirmation times.\cite{Baliga2017UnderstandingBC} 
+
+% \subsubsection{Proof of Stake(PoS)}
+% PoS works by instead of proving that a node has spent time working on a cryptographic puzzle, they provide some of their cryptocurrency as a stake, which allows the node to vote on a correct block to be added to the ledger. By having a stake, nodes are discouraged from acting maliciously as if they do they will have their stake taken, and lose more than they gain from their actions. The algorithm pseudo-randomly selects a validator from the pool of validators, removing the ability for validators to be able to guess their turn.\cite{buterin2014ethereum}
+
+% PoS has the benefits of not requiring ASIC devices in order to compete in the consensus process, but instead requiring a non insignificant sum of cryptocurrency. It also doesn't require large amounts of electricity which is a cost and environmental benefit. 
+
+% \subsubsection{Proof of Elapsed Time(PoET)}
+% PoET works by using a Trusted Execution Environment(TEE), the TEE running on each participating node, each node then requests a wait time from the TEE. Then the node with the shortest wait time wins and is allowed to commit the next block to the chain. The TEE ensures that wait time cannot be modified and each nodes wait time is randomized. 
+
+% The drawback of PoET is the requirement of using a TEE, which must be run on specialized hardware like Intel's SGX.\cite{Linux2018Intro}
+
+% \subsubsection{Byzantine Fault Tolerance(BFT)}
+% These consensus protocols work on permissioned blockchains and make use of trust between participants, removing the need for economic incentive for miners, needed in protocols like PoW and PoS. They work by having certain trusted nodes and select a leader among them to achieve consensus.
+
+% The well known variations are \textbf{Delegated Byzantine Fault Tolerance}(DBFT), \textbf{Practical Byzantine Fault Tolerance}(PBFT), \textbf{Cross-Fault Tolerance}(XFT) and \textbf{Federated Byzantine Agreement}(FBA). The last of which can also run as a permission-less protocol.
+
+
+\subsection{Smart Contracts}
+
+Smart contracts (also known as chaincode) are scripts that are stored on the blockchain ledger and perform ledger specific tasks. Smart contracts are able to express business logic in code. In some blockchains, using smart contracts is required to create a transaction, generally where accounts are used, like in Hyperledger Fabric, while some blockchains make do without smart contracts like Bitcoin, which uses a different model to allow for transactions.\cite{SCIOT}
+
+
+% \section{Supply Chains}
+
+% The supply chain industry is the industry involved in moving goods from one location to another. There are four main participants in a supply chain\cite{Hug2018}:
+% \begin{enumerate}
+%     \item Producer: The organisation who makes the products, either raw materials or refined goods
+%     \item Distributor: The organisation who take bulk goods from producers and transport them further down the supply chain to retailers
+%     \item Retailers: The organisation who stock and sell goods in smaller quantities to customers
+%     \item Consumers: Organisations and people who buy the goods to consume or convert into other goods
+% \end{enumerate}
+
+
+
+\section{Internet of Things(IoT) Devices}
+
+\textit{In this thesis the terms IoT devices and Low Powered Devices are used interchangeably. When mentioned they refer to devices like Raspberry Pis and Arduinos. It is understood that certain fields of computer science would assume Low Powered Devices to refer to embedded devices.}
+
+Internet of Things devices have seen a massive spike in use in recent years due to the increase in use of wireless networks and the ability to scale down the physical size of computers \cite{ManagingIOTbc}. IoT refers to the devices in the world connected to the internet that collect, process and share data. Many of these IoT devices are small light weight devices with limited access to resources such a memory, computational speed and power. 
+
+These IoT devices are able to connect and share information with each other without the need for human oversight, allowing for massive amounts of data to be collected and shared and with insights from this data they are able make decisions or suggestions for humans. An example of this is a smart fridge which can check levels of food in a fridge and add the items needed into a online shopping cart which a human can then accept and the devices involved perform the transaction.
+
+
+\section{Testing and Benchmarking}
+
+The performance of a blockchain solution can be separated into two categories, the performance of the network and the performance of an individual device in a network. 
+
+\subsection{Network Performance}
+
+In order to determine how effectively a particular blockchain solution works we first look at the overall network. There are several predefined metrics that allow us to determine network performance\cite{Linux2018Metrics}.
+
+\begin{description}
+
+    \item[Success Rate]
+        \textit{= Total Successful Transactions / Total Attempted Transactions}
+
+    \item[Read Latency]
+        \textit{ = Time When Response Received – Submit Time}
+        
+    \item[Read Throughput]
+        \textit{ = Total Read Operations / Total Time in Seconds}
+        
+    \item[Transaction Latency]
+        \textit{ = (Confirmation Time @ Network Threshold) – Submit Time}
+    
+    \item[Transaction Throughput]
+        \textit{ = Total Committed Transactions / Total Time in \\Seconds @ \#Committed Nodes}
+    
+    \item[Blockchain Work]
+        \textit{ =  f(Transaction throughput, network size)}
+        
+        \textit{This metric is currently a theoretical performance indicator, with no agreed upon function that gives us true insights into how a blockchain solution performs}
+
+\end{description}
+
+
+
+\subsection{Individual Node Performance}
+
+It is also useful to look at the performance of an individual node in a blockchain solution, this allows us to see how intensively we can run a blockchain solution on a node before we run into problems such as a device crashing or being throttled due to lack of resources.
+
+\begin{itemize}
+    \item CPU Utilisation
+    \item Memory Usage 
+    \item Power Consumption
+\end{itemize}
